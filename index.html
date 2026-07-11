@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Elcionei Fernandes</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Variáveis de Cor - Identidade Dark & Neon */
+        :root {
+            --primary: #00e676;
+            --bg-dark: #0a0a0c;
+            --card-glass: rgba(255, 255, 255, 0.04);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #b3b3b3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        html{
+    scroll-behavior: smooth;
+}
+
+        /* Container do Canvas de Partículas */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Estrutura Centralizada */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        /* Títulos das Seções com Linha Neon */
+        section h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        section h2 .material-icons {
+            color: var(--primary);
+        }
+
+        /* Efeito Glassmorphism nos Cards */
+        .glass-card {
+            background: var(--card-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 230, 118, 0.15);
+            border-color: rgba(0, 230, 118, 0.3);
+        }
+
+        /* Header / Perfil Principal */
+        .profile-header {
+            text-align: left;
+        }
+
+        .profile-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .address {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Botões Estilizados */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background-color: #00b359;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-muted);
+        }
+
+        /* Grid de Habilidades */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .skill-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Estilo de Itens de Linha de Tempo (Experiência/Educação) */
+        .card-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .card-meta em {
+            color: var(--primary);
+            font-style: normal;
+        }
+
+        .description-text {
+            color: var(--text-muted);
+            text-align: justify;
+            font-size: 1rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .profile-header h1 {
+                font-size: 1.8rem;
+            }
+            .card-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        /* ==========================
+   CARROSSEL DE CERTIFICADOS
+========================== */
+
+.certificate-slider{
+    position:relative;
+    width:100%;
+    margin-top:20px;
+}
+
+.slider{
+    overflow:hidden;
+    border-radius:15px;
+}
+
+.slide{
+    display:none;
+    width:100%;
+    border-radius:15px;
+}
+
+.slide.active{
+    display:block;
+}
+
+.prev,
+.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    font-size:30px;
+    cursor:pointer;
+    z-index:10;
+}
+
+.prev{
+    left:15px;
+}
+
+.next{
+    right:15px;
+}
+
+.prev:hover,
+.next:hover{
+    background:#00e676;
+    color:#000;
+}
+
+.dots{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+    gap:10px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#666;
+    cursor:pointer;
+}
+
+.dot.active{
+    background:#00e676;
+}
+
+.titulo-certificado{
+    text-align: center;
+}
+
+.titulo-certificado a{
+    color: white;          /* ou #00e676 para verde */
+    text-decoration: none;
+    transition: .3s;
+}
+
+.titulo-certificado a:hover{
+    color: #00e676;
+    text-shadow: 0 0 8px #00e676;
+}
+
+/* ==========================
+   BOTÃO VOLTAR AO TOPO
+========================== */
+
+#btn-topo{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+
+    width:55px;
+    height:55px;
+
+    border-radius:50%;
+    background:#00e676;
+    color:#000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+
+    box-shadow:0 0 15px rgba(0,230,118,.4);
+
+    transition:.3s;
+
+    opacity:0;
+    visibility:hidden;
+
+    z-index:999;
+}
+
+#btn-topo.show{
+    opacity:1;
+    visibility:visible;
+}
+
+#btn-topo:hover{
+    transform:translateY(-5px);
+    background:white;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.profile-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #00e676;
+    box-shadow: 0 0 20px rgba(0,230,118,.5);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+@media (max-width:768px){
+    .profile-top{
+        flex-direction: column;
+        text-align:center;
+    }
+
+    .address{
+        justify-content:center;
+    }
+
+    .contact-actions{
+        justify-content:center;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+
+        <header class="glass-card profile-header" data-aos="fade-down">
+
+    <div class="profile-top">
+
+        <img src="imagens/self/elcinei fernandaes.jpeg"
+             alt="Foto de Elcionei Fernandes"
+             class="profile-photo">
+
+        <div class="profile-info">
+
+            <h1>ELCIONEI FERNANDES DE FRANÇA</h1>
+
+            <div class="address">
+                <span class="material-icons">place</span>
+                Colônia agrícola 26 de Setembro, Taguatinga/DF
+            </div>
+
+        </div>
+
+    </div>
+            <div class="contact-actions">
+                <a href="https://wa.me/5561981953090" target="_blank" class="btn btn-primary">
+                    <span class="material-icons">chat</span> WhatsApp
+                </a>
+                <a href="mailto:elcioneifernandes@gmail.com" class="btn btn-outline">
+                    <span class="material-icons">email</span> elcioneifernandes@gmail.com
+                </a>
+                <a href="https://www.linkedin.com/in/elcionei/" target="_blank" class="btn btn-outline">LinkdIn</a>
+                <a href="https://github.com/ELCIONEI" target="_blank" class="btn btn-outline">GITHUB</a>
+                <a href="#certificações" class="btn btn-outline">CERTIFICAÇÕES</a>
+            </div>
+        </header>
+
+        <section data-aos="fade-right">
+            <h2><span class="material-icons">person</span> Quem Sou Eu?</h2>
+            <div class="glass-card">
+                    <ul class="description-text">
+                    <li>Graduando em Segurança Cibernética.</li>
+                    <li>Graduado em Sistemas de Informação.</li>
+                    <li>Pai, casado, 02 filhos, hoje se dedicando à busca de conhecimento no mundo da tecnologia.</li>
+                    <li>Esteve por muitos anos na construção civil, desde 2014 mergulhando a fundo nessa era tecnológica. Se dedicando bastante todos os dias na área de redes, segurança cibernética e programação.</li>
+                    <li>Com alguns pequenos projetos na área de Desenvolvimento funcionando, pois o mundo da programação, também é muito interessante para esta época.</li>
+                    <li>Com a gama de opções neste campo que é a tecnologia, não sabemos onde iremos parar, apenas pertencemos a esta época.</li>
+                    <li>E que possamos navegar juntos vida a dentro não é mesmo?.</li>
+                    </ul>
+            </div>
+        </section>
+
+        <section data-aos="fade-left">
+            <h2><span class="material-icons">school</span> Formação Acadêmica</h2>
+            
+            <div class="glass-card">
+                <h3>Graduando em Segurança Cibernética</h3>
+                <div class="card-meta">Gran Faculdade — <em>Conclusão esperada: 12/2026</em></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Bacharelado em Sistemas de Informação</h3>
+                <div class="card-meta">Faculdade JK Guará II — <em>Concluído - 2018</em></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Hacker Ético</h3>
+                <div class="card-meta">Networking Academy — <em>Concluído - 2024</em></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Analista de Cibersegurança Júnior</h3>
+                <div class="card-meta">CISCO - Networking Academy — <em>Concluído - 2023</em></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Técnico em Redes</h3>
+                <div class="card-meta">Networking Academy — <em>Concluído - 2022</em></div>
+            </div>
+        </section>
+
+        <section data-aos="zoom-in">
+            <h2><span class="material-icons">work</span> Experiências Profissionais</h2>
+
+            <div class="glass-card">
+                <h3>Técnico Sênior em Redes e Manutenção de Micros</h3>
+                <div class="card-meta">G4F - Soluções (Contrato: Secretaria de Saúde do DF) | <em>05/07/2025 - Emprego Atual</em></div>
+                <p class="description-text">Atuação com atendimento ao usuário da secretaria de saúde do DF, análise de segurança de rede, suporte remoto/presencial, configuração de hardware/software, gestão de serviços da rede local para acesso aos aplicativos usuais do dia dia, manutenção dos micros desde a parte de hardware até a configuração do sistema operacional ao apoio aos portais corporativos.</p>
+            </div>
+
+            <div class="glass-card">
+                <h3>Técnico Pleno em Manutenção e Segurança da Informação</h3>
+                <div class="card-meta">Dividata Processamento de Dados (Contrato: CAIXA ECONOMICA FEDERAL) | <em>17/11/2021 - 30/06/2025</em></div>
+                <p class="description-text">Consistia no atendimento presencial/remoto ao usuário, no apoio aos portais corporativos e acessos a Sistemas de rotinas de trabalhos dos funcionários, desde o preparo de máquinas com o perfil do usuário à habilitação das mesmas no domínio da empresa, estando tanto máquinas como o perfil do usuário atrelados aos portais de controle de sistemas Microsoft, como; portais do Azure no Office 365.</p>
+            </div>
+
+            <div class="glass-card">
+                <h3>Técnico em Manutenção de Micros e Monitoramento de Sistemas</h3>
+                <div class="card-meta">Hepta Tecnologia em Informática (Contrato: Ministerio de Minas e Energia e Ministerio do Esporte) | <em>08/02/2017 - 05/01/2018</em></div>
+                <p class="description-text">Atividades de criação de pontos de rede, instalação de imagens de sistema, ingresso de máquinas em domínio, realização de backups e configuração de perfis de usuário. Atuando no suporte remoto e presencial ao usuário quando necessário.</p>
+            </div>
+        </section>
+
+        <section data-aos="fade-up">
+            <h2><span class="material-icons">star</span> Habilidades</h2>
+            <div class="skills-grid">
+                
+                <div class="glass-card skill-card">
+                    <h3>FullStack</h3>
+                    <p>Sistema web completo nas linguagens Python + HTML + CSS + JS + JSON, (disponivel no GitHub)</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Python</h3>
+                    <p>Conhecimento em programação web python com Flask e Django.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Redes</h3>
+                    <p>Amplo conhecimento na construção de rede, execução de projetos de infra, da montagem de racks a configuração dos dispositivos.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Sistemas Microsoft</h3>
+                    <p>Amplo conhecimento no Portal Azure e Office 365, Sistemas Windows em geral.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Portais Corporativos</h3>
+                    <p>Amplo conhecimento em portais corporativos e configuração dos navegadores.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Analista</h3>
+                    <p>Junior em Ciber Segurança.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Técnico</h3>
+                    <p>Junior em redes.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Bancos de Dados</h3>
+                    <p>Manipulação de tabelas e construção de bancos, MySqlServer, SQL-Server, db_Browser SQlite, MongoDB, dentre outros.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Cibersegurança</h3>
+                    <p>Conhecimento inicial em defesa de rede.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Itil4</h3>
+                    <p>Amplo Conhecimento das boas Praticas da Biblioteca.</p>
+                </div>
+
+                <div class="glass-card skill-card">
+                    <h3>Protocolos de Rede</h3>
+                    <p>HTTP-Transferencia de paginas | FTP-Arquivos | DNS-Dominios | SMTP-Emails | HTTPS-Segurança | TCP/IP-Base da internet | DHCP-Configuração Automatica.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="certificações" data-aos="zoom-in">
+            <h2><span class="material-icons">work</span> Certificações</h2>
+
+            <div class="glass-card">
+                    <ul class="description-text">
+                    <li>Graduando em Segurança Cibernética.</li>
+                    <li>Analista Junior em cibersegurança - 2023</li>
+                    <li>ISO-IEC-27001-Information-Security-Associate - 2023</li>
+                    <li>LGPD - Fundamentos da Lei Geral de Proteção de Dados - 2021</li>
+                    <li>SCRUM - Scrum Foundation Professional</li>
+                    <li>Hacker Etico - (Cisco)</li>
+                    </ul>
+            </div>        
+
+            <div class="glass-card">
+
+    <h3 class="titulo-certificado"> <a href="https://www.skillfront.com/" target="_blank">
+        Certificações SkillFront - Segurança Cibernética </a>
+    </h3>
+
+    <div class="certificate-slider">
+
+        <button class="prev">&#10094;</button>
+
+        <div class="slider">
+            <img src="imagens/skillfront/imagen1.png" class="slide active">
+            <img src="imagens/skillfront/imagen2.png" class="slide">
+            <img src="imagens/skillfront/imagen3.png" class="slide">
+            <img src="imagens/skillfront/imagen4.png" class="slide">
+            <img src="imagens/skillfront/imagen5.png" class="slide">
+            <img src="imagens/skillfront/imagen6.png" class="slide">
+        </div>
+
+        <button class="next">&#10095;</button>
+
+    </div>
+
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
+</div> <!-- FECHA O PRIMEIRO CARD -->
+
+
+<div class="glass-card">
+
+    <h3 class="titulo-certificado"> <a href="https://portalhashtag.com/login" target="_blank">
+        Certificados-HashTag - Programação</a>
+    </h3>
+
+    <div class="certificate-slider">
+
+        <button class="prev">&#10094;</button>
+
+        <div class="slider">
+            <img src="imagens/hashtag/1.png" class="slide active">
+            <img src="imagens/hashtag/2.png" class="slide">
+            <img src="imagens/hashtag/3.png" class="slide">
+            <img src="imagens/hashtag/4.png" class="slide">
+            <img src="imagens/hashtag/5.png" class="slide" >
+            <img src="imagens/hashtag/6.png" class="slide">
+            <img src="imagens/hashtag/7.png" class="slide" >
+            <img src="imagens/hashtag/8.png" class="slide">
+            <img src="imagens/hashtag/9.png" class="slide">
+            <img src="imagens/hashtag/10.png" class="slide" >
+            <img src="imagens/hashtag/11.png" class="slide" >
+            <img src="imagens/hashtag/12.png" class="slide" >
+            <img src="imagens/hashtag/13.png" class="slide">
+            <img src="imagens/hashtag/14.png" class="slide">
+        </div>
+
+        <button class="next">&#10095;</button>
+
+    </div>
+
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
+</div> <!-- FECHA O SEGUNDO CARD -->
+<div class="glass-card">
+
+    <h3 class="titulo-certificado">
+        <a href="https://www.netacad.com/pt/" target="_blank">Certificados CISCO - REDES</a>
+    </h3>
+
+    <div class="certificate-slider">
+
+        <button class="prev">&#10094;</button>
+
+        <div class="slider">
+            <img src="imagens/CISCO - REDES/1.png" class="slide active">
+            <img src="imagens/CISCO - REDES/2.png" class="slide">
+            <img src="imagens/CISCO - REDES/3.png" class="slide"> 
+            <img src="imagens/CISCO - REDES/4.png" class="slide">
+            <img src="imagens/CISCO - REDES/5.png" class="slide">
+            <img src="imagens/CISCO - REDES/6.png" class="slide">
+            <img src="imagens/CISCO - REDES/7.png" class="slide">
+            <img src="imagens/CISCO - REDES/8.png" class="slide">
+        </div>
+
+        <button class="next">&#10095;</button>
+
+    </div>
+
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+   </div>
+
+</div><!-- FECHA O TERCEIRO CARD -->
+
+<div class="glass-card">
+
+    <h3 class="titulo-certificado">
+        <a href="https://www.dio.me/" target="_blank">Certificados DIO/Microsoft - Sistemas Windows</a>
+    </h3>
+
+    <div class="certificate-slider">
+
+        <button class="prev">&#10094;</button>
+
+        <div class="slider">
+            <img src="imagens/DIO.Microsoft/1.png" class="slide active">
+            <img src="imagens/DIO.Microsoft/2.png" class="slide">
+            <img src="imagens/DIO.Microsoft/3.png" class="slide">
+            <img src="imagens/DIO.Microsoft/4.png" class="slide">
+            <img src="imagens/DIO.Microsoft/5.png" class="slide">
+            <img src="imagens/DIO.Microsoft/6.png" class="slide">
+            <img src="imagens/DIO.Microsoft/7.png" class="slide">
+            <img src="imagens/DIO.Microsoft/8.png" class="slide">
+            <img src="imagens/DIO.Microsoft/9.png" class="slide">
+            <img src="imagens/DIO.Microsoft/10.png" class="slide">
+        </div>
+
+        <button class="next">&#10095;</button>
+
+    </div>
+
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+   </div>
+
+</div><!-- FECHA O QUARTO CARD -->
+
+</div>      
+        </section>
+
+    </div>
+
+    <a href="#" id="btn-topo" title="Voltar ao topo">
+    ↑
+</a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Inicializa animações de rolagem (AOS)
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Configuração do efeito de partículas flutuantes no fundo
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00e676" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#00e676", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false } },
+                "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 0.35 } } }
+            },
+            "retina_detect": true
+        });
+
+        // ===============================
+// CARROSSEL DOS CERTIFICADOS
+// ===============================
+
+document.querySelectorAll(".glass-card").forEach(card => {
+
+    const slides = card.querySelectorAll(".slide");
+    const dots = card.querySelectorAll(".dot");
+    const next = card.querySelector(".next");
+    const prev = card.querySelector(".prev");
+
+    if(slides.length === 0) return;
+
+    let index = 0;
+
+    function showSlide(i){
+
+        slides.forEach(slide => slide.classList.remove("active"));
+        dots.forEach(dot => dot.classList.remove("active"));
+
+        if(i >= slides.length){
+            index = 0;
+        }else if(i < 0){
+            index = slides.length - 1;
+        }else{
+            index = i;
+        }
+
+        slides[index].classList.add("active");
+
+        if(dots[index]){
+            dots[index].classList.add("active");
+        }
+    }
+
+    next.addEventListener("click", ()=>showSlide(index+1));
+    prev.addEventListener("click", ()=>showSlide(index-1));
+
+    dots.forEach((dot,i)=>{
+        dot.addEventListener("click",()=>showSlide(i));
+    });
+
+    setInterval(()=>{
+        showSlide(index+1);
+    },10000);
+
+});
+
+const btnTopo = document.getElementById("btn-topo");
+
+window.addEventListener("scroll", () => {
+
+    if(window.scrollY > 300){
+        btnTopo.classList.add("show");
+    }else{
+        btnTopo.classList.remove("show");
+    }
+
+});
+
+    </script>
+</body>
+</html>
